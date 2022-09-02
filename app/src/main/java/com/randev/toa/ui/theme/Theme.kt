@@ -9,7 +9,7 @@ fun TOATheme(content: @Composable () -> Unit) {
 
     MaterialTheme(
         colors = colors,
-        typography = Typography,
+        typography = typography,
         shapes = Shapes,
         content = content
     )
