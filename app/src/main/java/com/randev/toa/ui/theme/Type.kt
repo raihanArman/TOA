@@ -28,6 +28,10 @@ private val UrbanistLight = FontFamily(
     Font(R.font.urbanist_light)
 )
 
+private val UrbanistRegular = FontFamily(
+    Font(R.font.urbanist_regular)
+)
+
 val typography = Typography(
     h1 = TextStyle(
         fontFamily = UrbanistExtraBold,
@@ -53,4 +57,8 @@ val typography = Typography(
         fontFamily = UrbanistBold,
         fontSize = 13.sp
     ),
+    caption = TextStyle(
+        fontFamily = UrbanistRegular,
+        fontSize = 12.sp
+    )
 )
