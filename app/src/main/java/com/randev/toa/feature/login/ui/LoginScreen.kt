@@ -1,6 +1,6 @@
 @file:Suppress("MagicNumber")
 
-package com.randev.toa.ui.feature.login
+package com.randev.toa.feature.login.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -61,8 +61,8 @@ fun LoginScreen(
                 modifier = Modifier
                     .weight(1f)
             )
-            UsernameInput(
-                text = viewState.username,
+            EmailInput(
+                text = viewState.email,
                 onTextChanged = onUsernameChanged
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -117,14 +117,14 @@ private fun LoginButton(
 }
 
 @Composable
-private fun UsernameInput(
+private fun EmailInput(
     text: String,
     onTextChanged: (String) -> Unit
 ) {
     TextFieldCustom(
         text = text,
         onTextChanged = onTextChanged,
-        labelText = stringResource(R.string.username)
+        labelText = stringResource(R.string.email)
     )
 }
 
