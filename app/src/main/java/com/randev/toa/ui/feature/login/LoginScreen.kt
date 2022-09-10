@@ -31,7 +31,7 @@ import com.randev.toa.ui.theme.TOATheme
  * @date 04/09/22
  */
 
-private val APP_LOGO_WIDTH_PERCENTAGE = 0.75f
+private const val APP_LOGO_WIDTH_PERCENTAGE = 0.75f
 
 @Composable
 fun LoginScreen(
