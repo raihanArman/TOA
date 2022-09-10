@@ -2,6 +2,7 @@ package com.randev.toa.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material.ButtonDefaults.textButtonColors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -25,19 +26,23 @@ fun SecondaryButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    textColor: Color = MaterialTheme.colors.primary
-
+    contentColor: Color = MaterialTheme.colors.primary
 ) {
+
+    val buttonColor = textButtonColors(
+        contentColor = contentColor
+    )
+
     TextButton(
         onClick = onClick,
         shape = ButtonShape,
         modifier = modifier
             .height(dimensionResource(id = R.dimen.button_height))
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        colors = buttonColor
     ) {
         Text(
             text = text,
-            color = textColor
         )
     }
 }
