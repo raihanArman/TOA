@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TOA</string>
+    <string name="username">Username</string>
+    <string name="pasword">Password</string>
+    <string name="login">Log in</string>
+    <string name="signup">Sign up</string>
 </resources>
