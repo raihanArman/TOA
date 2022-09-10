@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package com.randev.toa.ui.feature.login
 
 import androidx.compose.foundation.Image
