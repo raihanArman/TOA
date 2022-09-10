@@ -1,4 +1,4 @@
-package com.randev.toa.ui.feature.login
+package com.randev.toa.feature.login.ui
 
 /**
  * @author Raihan Arman
@@ -6,6 +6,6 @@ package com.randev.toa.ui.feature.login
  */
 
 data class LoginViewState(
-    val username: String,
+    val email: String,
     val password: String
 )
