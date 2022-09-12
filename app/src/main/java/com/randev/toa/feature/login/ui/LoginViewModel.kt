@@ -34,11 +34,11 @@ class LoginViewModel(
     }
 
     fun signInButtonClicked() {
-        // TODO: click signUp
+        //  click signUp
     }
 
     fun loginButtonClicked() {
-        // TODO: click login
+        //  click login
     }
 }
 
