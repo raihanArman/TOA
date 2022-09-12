@@ -1,12 +1,14 @@
 package com.randev.toa.feature.login.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.randev.toa.feature.login.domain.model.Credentials
 import com.randev.toa.feature.login.domain.model.Email
 import com.randev.toa.feature.login.domain.model.Password
 import com.randev.toa.feature.login.domain.usecase.CredentialsLoginUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 /**
  * @author Raihan Arman
@@ -39,6 +41,9 @@ class LoginViewModel(
 
     fun loginButtonClicked() {
         //  click login
+        viewModelScope.launch {
+            credentialsLoginUseCase(_viewState.value.credentials)
+        }
     }
 }
 
