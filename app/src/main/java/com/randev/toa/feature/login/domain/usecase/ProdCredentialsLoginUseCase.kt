@@ -5,6 +5,7 @@ import com.randev.toa.feature.login.domain.model.Credentials
 import com.randev.toa.feature.login.domain.model.InvalidCredentialsException
 import com.randev.toa.feature.login.domain.model.LoginResult
 import com.randev.toa.feature.login.repository.LoginRepository
+import com.randev.toa.feature.login.repository.TokenRepository
 
 /**
  * @author Raihan Arman
@@ -12,12 +13,14 @@ import com.randev.toa.feature.login.repository.LoginRepository
  */
 
 class ProdCredentialsLoginUseCase(
-    val loginRepository: LoginRepository
+    private val loginRepository: LoginRepository,
+    private val authTokenRepository: TokenRepository
 ) : CredentialsLoginUseCase {
     override suspend fun invoke(credentials: Credentials): LoginResult {
 
         return when (val repoResult = loginRepository.loginWithCredentials(credentials)) {
             is Result.Success -> {
+                authTokenRepository.storeAuthToken(repoResult.data.token)
                 return LoginResult.Success
             }
             is Result.Error -> {

@@ -6,5 +6,5 @@ package com.randev.toa.feature.login.domain.model
  */
 
 data class LoginResponse(
-    private val authToken: String
+    val token: Token
 )

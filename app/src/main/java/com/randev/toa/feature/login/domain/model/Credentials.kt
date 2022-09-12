@@ -7,11 +7,11 @@ package com.randev.toa.feature.login.domain.model
 
 @Suppress("UnusedPrivateMember")
 @JvmInline
-value class Email(private val email: String)
+value class Email(val value: String)
 
 @Suppress("UnusedPrivateMember")
 @JvmInline
-value class Password(private val password: String)
+value class Password(val value: String)
 
 data class Credentials(
     val email: Email,
