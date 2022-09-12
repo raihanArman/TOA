@@ -25,7 +25,7 @@ fun PrimaryButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     backgroundColor: Color = MaterialTheme.colors.primary,
-
+    enabled: Boolean = true
 ) {
     val buttonColors = buttonColors(
         backgroundColor = backgroundColor,
@@ -37,7 +37,8 @@ fun PrimaryButton(
         shape = ButtonShape,
         modifier = modifier
             .height(dimensionResource(id = R.dimen.button_height))
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        enabled = enabled
     ) {
         Text(
             text = text,

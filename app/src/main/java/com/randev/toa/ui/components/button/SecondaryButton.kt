@@ -26,7 +26,8 @@ fun SecondaryButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    contentColor: Color = MaterialTheme.colors.primary
+    contentColor: Color = MaterialTheme.colors.primary,
+    enabled: Boolean = true
 ) {
 
     val buttonColor = textButtonColors(
@@ -39,7 +40,8 @@ fun SecondaryButton(
         modifier = modifier
             .height(dimensionResource(id = R.dimen.button_height))
             .fillMaxWidth(),
-        colors = buttonColor
+        colors = buttonColor,
+        enabled = enabled
     ) {
         Text(
             text = text,
