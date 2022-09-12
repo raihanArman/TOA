@@ -3,20 +3,25 @@
 package com.randev.toa.feature.login.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.randev.toa.R
@@ -42,89 +47,141 @@ fun LoginScreen(
     onSignUpClicked: () -> Unit
 ) {
     Surface(
-        color = MaterialTheme.colors.primary,
+        color = MaterialTheme.colors.background,
 
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(dimensionResource(id = R.dimen.screen_padding)),
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(
+            LogoInputColumn(
+                viewState,
+                onUsernameChanged,
+                onPasswordChanged,
+                onLoginClicked,
+                onSignUpClicked
+            )
+            CircularProgressIndicator(
                 modifier = Modifier
-                    .weight(1f)
-            )
-
-            AppLogo()
-            Spacer(
-                modifier = Modifier
-                    .weight(1f)
-            )
-            EmailInput(
-                text = viewState.email,
-                onTextChanged = onUsernameChanged
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            PasswordInput(
-                text = viewState.password,
-                onTextChanged = onPasswordChanged
-            )
-            VerticalSpacer(12.dp)
-            LoginButton(
-                onClick = onLoginClicked
-            )
-            VerticalSpacer(12.dp)
-            SignUpButton(
-                onClick = onSignUpClicked
+                    .wrapContentSize()
+                    .align(Alignment.Center)
             )
         }
     }
 }
 
 @Composable
+private fun LogoInputColumn(
+    viewState: LoginViewState,
+    onUsernameChanged: (String) -> Unit,
+    onPasswordChanged: (String) -> Unit,
+    onLoginClicked: () -> Unit,
+    onSignUpClicked: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(dimensionResource(id = R.dimen.screen_padding)),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(
+            modifier = Modifier
+                .weight(1f)
+        )
+
+        AppLogo()
+        Spacer(
+            modifier = Modifier
+                .weight(1f)
+        )
+        EmailInput(
+            text = viewState.credentials.email.value,
+            onTextChanged = onUsernameChanged,
+            errorMessage = (viewState as? LoginViewState.InputError)?.emailInputErrorMessage
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        PasswordInput(
+            text = viewState.credentials.password.value,
+            onTextChanged = onPasswordChanged,
+            errorMessage = (viewState as? LoginViewState.InputError)?.passwordInputErrorMessage
+        )
+
+        if (viewState is LoginViewState.SubmissionError) {
+            Text(
+                text = viewState.errorMessage,
+                color = MaterialTheme.colors.error,
+                modifier = Modifier
+                    .padding(top = 12.dp)
+            )
+        }
+
+        VerticalSpacer(12.dp)
+
+        val buttonEnabled: Boolean = (viewState is LoginViewState.Submitting)
+        LoginButton(
+            onClick = onLoginClicked,
+            enabled = viewState.buttonEnabled
+        )
+        VerticalSpacer(12.dp)
+        SignUpButton(
+            onClick = onSignUpClicked,
+            enabled = viewState.buttonEnabled
+        )
+    }
+}
+
+@Composable
 private fun SignUpButton(
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    enabled: Boolean,
 ) {
     SecondaryButton(
         text = stringResource(R.string.signup),
         onClick = onClick,
-        contentColor = MaterialTheme.colors.primary
+        contentColor = MaterialTheme.colors.primary,
+        enabled = enabled
     )
 }
 
 @Composable
 private fun PasswordInput(
     text: String,
-    onTextChanged: (String) -> Unit
+    onTextChanged: (String) -> Unit,
+    errorMessage: String?
 ) {
     TextFieldCustom(
         text = text,
         onTextChanged = onTextChanged,
-        labelText = stringResource(R.string.pasword)
+        labelText = stringResource(R.string.pasword),
+        errorMessage = errorMessage,
+        visualTransformation = PasswordVisualTransformation()
     )
 }
 
 @Composable
 private fun LoginButton(
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    enabled: Boolean
 ) {
     PrimaryButton(
         text = stringResource(R.string.login),
         onClick = onClick,
-        backgroundColor = MaterialTheme.colors.secondary
+        backgroundColor = MaterialTheme.colors.primary,
+        enabled = enabled
     )
 }
 
 @Composable
 private fun EmailInput(
     text: String,
-    onTextChanged: (String) -> Unit
+    onTextChanged: (String) -> Unit,
+    errorMessage: String?
 ) {
     TextFieldCustom(
         text = text,
         onTextChanged = onTextChanged,
-        labelText = stringResource(R.string.email)
+        labelText = stringResource(R.string.email),
+        errorMessage = errorMessage
     )
 }
 
@@ -141,9 +198,10 @@ private fun AppLogo() {
 @Preview
 @Composable
 fun LoginPreview() {
+    val viewState = LoginViewState.Initial
     TOATheme {
         LoginScreen(
-            viewState = LoginViewState("", password = ""),
+            viewState = viewState,
             onLoginClicked = {},
             onPasswordChanged = {},
             onSignUpClicked = {},
