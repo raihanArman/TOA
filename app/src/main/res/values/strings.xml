@@ -4,4 +4,6 @@
     <string name="pasword">Password</string>
     <string name="login">Log in</string>
     <string name="signup">Sign up</string>
+    <string name="err_invalid_credentials">Your email and/or password are incorrect</string>
+    <string name="err_login_failure">There was a problem logging </string>
 </resources>

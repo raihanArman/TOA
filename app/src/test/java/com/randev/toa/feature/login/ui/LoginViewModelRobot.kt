@@ -1,8 +1,10 @@
 package com.randev.toa.feature.login.ui
 
+import app.cash.turbine.test
 import com.randev.toa.fakes.FakeCredentialsLoginUseCase
 import com.randev.toa.feature.login.domain.model.Credentials
 import com.randev.toa.feature.login.domain.model.LoginResult
+import org.junit.Assert.assertEquals
 
 /**
  * @author Raihan Arman
@@ -34,7 +36,7 @@ class LoginViewModelRobot {
         viewModel.passwordChanged(password)
     }
 
-    fun clickLoginButton() = apply {
+    fun clickLogInButton() = apply {
         viewModel.loginButtonClicked()
     }
 
@@ -44,5 +46,20 @@ class LoginViewModelRobot {
 
     fun assertViewState(expectedViewState: LoginViewState) = apply {
         assert(viewModel.viewState.value == expectedViewState)
+    }
+
+    suspend fun assertViewStatesAfterAction(
+        viewStates: List<LoginViewState>,
+        action: LoginViewModelRobot.() -> Unit,
+    ) = apply {
+        viewModel.viewState.test {
+            action()
+
+            for (state in viewStates) {
+                assertEquals(state, awaitItem())
+            }
+
+//            cancel()
+        }
     }
 }

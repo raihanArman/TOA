@@ -2,8 +2,11 @@ package com.randev.toa.feature.login.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.randev.toa.R
+import com.randev.toa.feature.UIText
 import com.randev.toa.feature.login.domain.model.Credentials
 import com.randev.toa.feature.login.domain.model.Email
+import com.randev.toa.feature.login.domain.model.LoginResult
 import com.randev.toa.feature.login.domain.model.Password
 import com.randev.toa.feature.login.domain.usecase.CredentialsLoginUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,9 +43,30 @@ class LoginViewModel(
     }
 
     fun loginButtonClicked() {
-        //  click login
+        val currentCredentials = _viewState.value.credentials
+
+        _viewState.value = LoginViewState.Submitting(
+            credentials = currentCredentials
+        )
+
         viewModelScope.launch {
-            credentialsLoginUseCase(_viewState.value.credentials)
+            val loginResult = credentialsLoginUseCase(currentCredentials)
+
+            _viewState.value = when (loginResult) {
+                is LoginResult.Failure.InvalidCredentials -> {
+                    LoginViewState.SubmissionError(
+                        credentials = currentCredentials,
+                        errorMessage = UIText.ResourceText(R.string.err_invalid_credentials)
+                    )
+                }
+                is LoginResult.Failure.Unknown -> {
+                    LoginViewState.SubmissionError(
+                        credentials = currentCredentials,
+                        errorMessage = UIText.ResourceText(R.string.err_login_failure)
+                    )
+                }
+                else -> _viewState.value
+            }
         }
     }
 }
