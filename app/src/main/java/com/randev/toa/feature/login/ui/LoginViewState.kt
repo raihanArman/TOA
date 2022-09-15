@@ -1,5 +1,6 @@
 package com.randev.toa.feature.login.ui
 
+import com.randev.toa.feature.UIText
 import com.randev.toa.feature.login.domain.model.Credentials
 
 /**
@@ -39,7 +40,7 @@ sealed class LoginViewState(
 
     data class SubmissionError(
         override val credentials: Credentials,
-        val errorMessage: String
+        val errorMessage: UIText
     ) : LoginViewState(
         credentials = credentials
     )
