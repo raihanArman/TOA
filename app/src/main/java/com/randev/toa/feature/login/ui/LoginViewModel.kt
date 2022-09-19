@@ -9,16 +9,19 @@ import com.randev.toa.feature.login.domain.model.Email
 import com.randev.toa.feature.login.domain.model.LoginResult
 import com.randev.toa.feature.login.domain.model.Password
 import com.randev.toa.feature.login.domain.usecase.CredentialsLoginUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * @author Raihan Arman
  * @date 12/09/22
  */
 
-class LoginViewModel(
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val credentialsLoginUseCase: CredentialsLoginUseCase
 ) : ViewModel() {
     private val _viewState: MutableStateFlow<LoginViewState> =
