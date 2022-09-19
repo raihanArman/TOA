@@ -2,6 +2,8 @@ package com.randev.toa.feature
 
 import android.content.Context
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 
 /**
  * @author Raihan Arman
@@ -18,4 +20,9 @@ fun UIText.getString(context: Context): String {
         is UIText.StringText -> this.value
         is UIText.ResourceText -> context.getString(this.value)
     }
+}
+
+@Composable
+fun UIText.getString(): String {
+    return this.getString(LocalContext.current)
 }

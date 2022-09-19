@@ -4,6 +4,9 @@ import app.cash.turbine.test
 import com.randev.toa.fakes.FakeCredentialsLoginUseCase
 import com.randev.toa.feature.login.domain.model.Credentials
 import com.randev.toa.feature.login.domain.model.LoginResult
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import org.junit.Assert.assertEquals
 
 /**
@@ -59,7 +62,23 @@ class LoginViewModelRobot {
                 assertEquals(state, awaitItem())
             }
 
-//            cancel()
+            cancel()
         }
+    }
+
+    suspend fun expectViewStates(
+        viewStates: List<LoginViewState>,
+    ) = coroutineScope {
+        GlobalScope.launch {
+            viewModel.viewState.test {
+                for (state in viewStates) {
+                    assertEquals(state, awaitItem())
+                }
+
+                this.cancel()
+            }
+        }
+
+        return@coroutineScope this@LoginViewModelRobot
     }
 }

@@ -5,6 +5,7 @@ import com.randev.toa.feature.login.domain.model.Credentials
 import com.randev.toa.feature.login.domain.model.LoginResponse
 import com.randev.toa.feature.login.repository.LoginRepository
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 
 /**
@@ -21,5 +22,11 @@ class FakeLoginRepository {
         coEvery {
             mock.loginWithCredentials(credentials)
         } returns result
+    }
+
+    fun verifyNoLoginCall() {
+        coVerify(exactly = 0) {
+            mock.loginWithCredentials(any())
+        }
     }
 }
