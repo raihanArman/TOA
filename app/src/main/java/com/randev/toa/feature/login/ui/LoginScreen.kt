@@ -2,6 +2,7 @@ package com.randev.toa.feature.login.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.hilt.navigation.compose.hiltViewModel
 
 /**
  * @author Raihan Arman
@@ -10,7 +11,7 @@ import androidx.compose.runtime.collectAsState
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
     val viewState = viewModel.viewState.collectAsState()
 
