@@ -21,20 +21,29 @@ import kotlinx.coroutines.launch
 class LoginViewModel(
     private val credentialsLoginUseCase: CredentialsLoginUseCase
 ) : ViewModel() {
-    private val _viewState: MutableStateFlow<LoginViewState> = MutableStateFlow(LoginViewState.Initial)
+    private val _viewState: MutableStateFlow<LoginViewState> =
+        MutableStateFlow(LoginViewState.Initial)
     val viewState: StateFlow<LoginViewState> = _viewState
 
     fun emailChanged(email: String) {
         val currentCredentials = _viewState.value.credentials
+        val currentPasswordErrorMessage = (_viewState.value as? LoginViewState.Active)?.passwordInputErrorMessage
+
         _viewState.value = LoginViewState.Active(
-            credentials = currentCredentials.withUpdatedEmail(email = email)
+            credentials = currentCredentials.withUpdatedEmail(email = email),
+            emailInputErrorMessage = null,
+            passwordInputErrorMessage = currentPasswordErrorMessage
         )
     }
 
     fun passwordChanged(password: String) {
         val currentCredentials = _viewState.value.credentials
+        val currentEmailErrorMessage = (_viewState.value as? LoginViewState.Active)?.emailInputErrorMessage
+
         _viewState.value = LoginViewState.Active(
-            credentials = currentCredentials.withUpdatedPassword(password = password)
+            credentials = currentCredentials.withUpdatedPassword(password = password),
+            emailInputErrorMessage = currentEmailErrorMessage,
+            passwordInputErrorMessage = null
         )
     }
 
@@ -65,16 +74,31 @@ class LoginViewModel(
                         errorMessage = UIText.ResourceText(R.string.err_login_failure)
                     )
                 }
+                is LoginResult.Failure.EmptyCredentials -> {
+                    loginResult.toLoginViewState(credentials = currentCredentials)
+                }
                 else -> _viewState.value
             }
         }
     }
-}
 
-private fun Credentials.withUpdatedEmail(email: String): Credentials {
-    return this.copy(email = Email(email))
-}
+    private fun Credentials.withUpdatedEmail(email: String): Credentials {
+        return this.copy(email = Email(email))
+    }
 
-private fun Credentials.withUpdatedPassword(password: String): Credentials {
-    return this.copy(password = Password(password))
+    private fun Credentials.withUpdatedPassword(password: String): Credentials {
+        return this.copy(password = Password(password))
+    }
+
+    private fun LoginResult.Failure.EmptyCredentials.toLoginViewState(credentials: Credentials): LoginViewState {
+        return LoginViewState.Active(
+            credentials = credentials,
+            emailInputErrorMessage = UIText.ResourceText(R.string.err_empty_email).takeIf {
+                this.emptyEmail
+            },
+            passwordInputErrorMessage = this.emptyPassword.takeIf { it }?.let {
+                UIText.ResourceText(R.string.err_empty_password)
+            }
+        )
+    }
 }

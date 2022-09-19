@@ -63,11 +63,14 @@ fun LoginContent(
                 onLoginClicked,
                 onSignUpClicked
             )
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .wrapContentSize()
-                    .align(Alignment.Center)
-            )
+
+            if (viewState is LoginViewState.Submitting) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .align(Alignment.Center)
+                )
+            }
         }
     }
 }
@@ -99,13 +102,13 @@ private fun LogoInputColumn(
         EmailInput(
             text = viewState.credentials.email.value,
             onTextChanged = onUsernameChanged,
-            errorMessage = (viewState as? LoginViewState.InputError)?.emailInputErrorMessage
+            errorMessage = (viewState as? LoginViewState.Active)?.emailInputErrorMessage?.getString()
         )
         Spacer(modifier = Modifier.height(12.dp))
         PasswordInput(
             text = viewState.credentials.password.value,
             onTextChanged = onPasswordChanged,
-            errorMessage = (viewState as? LoginViewState.InputError)?.passwordInputErrorMessage
+            errorMessage = (viewState as? LoginViewState.Active)?.passwordInputErrorMessage?.getString()
         )
 
         if (viewState is LoginViewState.SubmissionError) {
