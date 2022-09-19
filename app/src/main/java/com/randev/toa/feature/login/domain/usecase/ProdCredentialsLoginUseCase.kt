@@ -6,13 +6,14 @@ import com.randev.toa.feature.login.domain.model.InvalidCredentialsException
 import com.randev.toa.feature.login.domain.model.LoginResult
 import com.randev.toa.feature.login.repository.LoginRepository
 import com.randev.toa.feature.login.repository.TokenRepository
+import javax.inject.Inject
 
 /**
  * @author Raihan Arman
  * @date 12/09/22
  */
 
-class ProdCredentialsLoginUseCase(
+class ProdCredentialsLoginUseCase @Inject constructor(
     private val loginRepository: LoginRepository,
     private val authTokenRepository: TokenRepository
 ) : CredentialsLoginUseCase {
@@ -25,7 +26,7 @@ class ProdCredentialsLoginUseCase(
 //        val missingEmail = credentials.email.value.isEmpty()
 //        val missingPassword = credentials.password.value.isEmpty()
 //
-//        if (missingEmail || missingPassword) {
+//        if     (missingEmail || missingPassword) {
 //            return LoginResult.Failure.EmptyCredentials(
 //                emptyEmail = missingEmail,
 //                emptyPassword = missingPassword
