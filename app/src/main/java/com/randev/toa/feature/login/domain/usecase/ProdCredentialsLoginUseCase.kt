@@ -17,10 +17,10 @@ class ProdCredentialsLoginUseCase(
     private val authTokenRepository: TokenRepository
 ) : CredentialsLoginUseCase {
     override suspend fun invoke(credentials: Credentials): LoginResult {
-//        val validationResult = validateCredentials(credentials = credentials)
-//        if (validationResult != null) {
-//            return validationResult
-//        }
+        val validationResult = validateCredentials(credentials = credentials)
+        if (validationResult != null) {
+            return validationResult
+        }
 
         val missingEmail = credentials.email.value.isEmpty()
         val missingPassword = credentials.password.value.isEmpty()
