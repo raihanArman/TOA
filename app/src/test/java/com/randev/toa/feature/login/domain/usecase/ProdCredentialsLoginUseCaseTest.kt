@@ -12,7 +12,6 @@ import com.randev.toa.feature.login.domain.model.LoginResult
 import com.randev.toa.feature.login.domain.model.Password
 import com.randev.toa.feature.login.domain.model.RefreshToken
 import com.randev.toa.feature.login.domain.model.Token
-import junit.framework.Assert
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
@@ -103,19 +102,19 @@ class ProdCredentialsLoginUseCaseTest {
         tokenRepository.verifyNoTokenStored()
     }
 
-    @Test
-    fun testEmptyCredentialsLogin() = runBlockingTest {
-        val emptyCredentials = Credentials()
-
-        val useCase = ProdCredentialsLoginUseCase(
-            loginRepository = loginRepository.mock,
-            authTokenRepository = tokenRepository.mock
-        )
-
-        val result = useCase(emptyCredentials)
-        Assert.assertEquals(result, LoginResult.Failure.EmptyCredentials(true, true))
-
-        loginRepository.verifyNoLoginCall()
-        tokenRepository.verifyNoTokenStored()
-    }
+//    @Test
+//    fun testEmptyCredentialsLogin() = runBlockingTest {
+//        val emptyCredentials = Credentials()
+//
+//        val useCase = ProdCredentialsLoginUseCase(
+//            loginRepository = loginRepository.mock,
+//            authTokenRepository = tokenRepository.mock
+//        )
+//
+//        val result = useCase(emptyCredentials)
+//        Assert.assertEquals(result, LoginResult.Failure.EmptyCredentials(true, true))
+//
+//        loginRepository.verifyNoLoginCall()
+//        tokenRepository.verifyNoTokenStored()
+//    }
 }
