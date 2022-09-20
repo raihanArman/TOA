@@ -1,6 +1,7 @@
 package com.randev.toa
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.randev.toa.feature.login.ui.LoginScreen
@@ -13,7 +14,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TOATheme {
-                LoginScreen()
+                LoginScreen(
+                    onLoginCompleted = {
+                        Log.d("MainActivity", "onCreate: Login has been completed")
+                    }
+                )
             }
         }
     }

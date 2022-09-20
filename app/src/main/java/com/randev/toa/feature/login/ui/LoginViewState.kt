@@ -46,4 +46,9 @@ sealed class LoginViewState(
     ) : LoginViewState(
         credentials = credentials
     )
+
+    object Completed : LoginViewState(
+        credentials = Credentials(),
+        buttonEnabled = false
+    )
 }
