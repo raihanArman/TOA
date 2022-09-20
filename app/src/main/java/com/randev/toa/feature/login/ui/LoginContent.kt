@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -22,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -102,13 +104,13 @@ private fun LogoInputColumn(
         EmailInput(
             text = viewState.credentials.email.value,
             onTextChanged = onUsernameChanged,
-            errorMessage = (viewState as? LoginViewState.Active)?.emailInputErrorMessage?.getString()
+            errorMessage = (viewState as? LoginViewState.Active)?.emailInputErrorMessage?.getString(),
         )
         Spacer(modifier = Modifier.height(12.dp))
         PasswordInput(
             text = viewState.credentials.password.value,
             onTextChanged = onPasswordChanged,
-            errorMessage = (viewState as? LoginViewState.Active)?.passwordInputErrorMessage?.getString()
+            errorMessage = (viewState as? LoginViewState.Active)?.passwordInputErrorMessage?.getString(),
         )
 
         if (viewState is LoginViewState.SubmissionError) {
@@ -152,14 +154,19 @@ private fun SignUpButton(
 private fun PasswordInput(
     text: String,
     onTextChanged: (String) -> Unit,
-    errorMessage: String?
+    errorMessage: String?,
+    enabled: Boolean = true
 ) {
     TextFieldCustom(
         text = text,
         onTextChanged = onTextChanged,
         labelText = stringResource(R.string.pasword),
         errorMessage = errorMessage,
-        visualTransformation = PasswordVisualTransformation()
+        visualTransformation = PasswordVisualTransformation(),
+        enabled = enabled,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Password
+        )
     )
 }
 
@@ -180,13 +187,15 @@ private fun LoginButton(
 private fun EmailInput(
     text: String,
     onTextChanged: (String) -> Unit,
-    errorMessage: String?
+    errorMessage: String?,
+    enabled: Boolean = true
 ) {
     TextFieldCustom(
         text = text,
         onTextChanged = onTextChanged,
         labelText = stringResource(R.string.email),
-        errorMessage = errorMessage
+        errorMessage = errorMessage,
+        enabled = enabled
     )
 }
 
