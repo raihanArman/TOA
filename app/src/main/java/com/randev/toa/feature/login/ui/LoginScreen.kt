@@ -1,7 +1,11 @@
 package com.randev.toa.feature.login.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.launch
 
 /**
  * @author Raihan Arman
@@ -10,9 +14,19 @@ import androidx.compose.runtime.collectAsState
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel
+    onLoginCompleted: () -> Unit,
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
     val viewState = viewModel.viewState.collectAsState()
+
+    val coroutineScope = rememberCoroutineScope()
+
+    SideEffect {
+        coroutineScope.launch {
+            viewModel.loginCompletedChannel.receive()
+            onLoginCompleted.invoke()
+        }
+    }
 
     LoginContent(
         viewState = viewState.value,

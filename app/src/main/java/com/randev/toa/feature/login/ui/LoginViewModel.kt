@@ -10,6 +10,7 @@ import com.randev.toa.feature.login.domain.model.LoginResult
 import com.randev.toa.feature.login.domain.model.Password
 import com.randev.toa.feature.login.domain.usecase.CredentialsLoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -26,7 +27,10 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel() {
     private val _viewState: MutableStateFlow<LoginViewState> =
         MutableStateFlow(LoginViewState.Initial)
+
     val viewState: StateFlow<LoginViewState> = _viewState
+
+    val loginCompletedChannel = Channel<Unit>()
 
     fun emailChanged(email: String) {
         val currentCredentials = _viewState.value.credentials
@@ -64,23 +68,35 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             val loginResult = credentialsLoginUseCase(currentCredentials)
 
-            _viewState.value = when (loginResult) {
-                is LoginResult.Failure.InvalidCredentials -> {
-                    LoginViewState.SubmissionError(
-                        credentials = currentCredentials,
-                        errorMessage = UIText.ResourceText(R.string.err_invalid_credentials)
-                    )
+            handleLoginResult(loginResult, currentCredentials)
+        }
+    }
+
+    private fun handleLoginResult(
+        loginResult: LoginResult,
+        currentCredentials: Credentials
+    ) {
+        _viewState.value = when (loginResult) {
+            is LoginResult.Failure.InvalidCredentials -> {
+                LoginViewState.SubmissionError(
+                    credentials = currentCredentials,
+                    errorMessage = UIText.ResourceText(R.string.err_invalid_credentials)
+                )
+            }
+            is LoginResult.Failure.Unknown -> {
+                LoginViewState.SubmissionError(
+                    credentials = currentCredentials,
+                    errorMessage = UIText.ResourceText(R.string.err_login_failure)
+                )
+            }
+            is LoginResult.Failure.EmptyCredentials -> {
+                loginResult.toLoginViewState(credentials = currentCredentials)
+            }
+            is LoginResult.Success -> {
+                viewModelScope.launch {
+                    loginCompletedChannel.send(Unit)
                 }
-                is LoginResult.Failure.Unknown -> {
-                    LoginViewState.SubmissionError(
-                        credentials = currentCredentials,
-                        errorMessage = UIText.ResourceText(R.string.err_login_failure)
-                    )
-                }
-                is LoginResult.Failure.EmptyCredentials -> {
-                    loginResult.toLoginViewState(credentials = currentCredentials)
-                }
-                else -> _viewState.value
+                LoginViewState.Completed
             }
         }
     }

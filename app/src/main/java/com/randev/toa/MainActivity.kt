@@ -1,11 +1,10 @@
 package com.randev.toa
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import com.randev.toa.feature.login.ui.LoginScreen
 import com.randev.toa.ui.theme.TOATheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,21 +14,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TOATheme {
-                Greeting("Raihan")
+                LoginScreen(
+                    onLoginCompleted = {
+                        Log.d("MainActivity", "onCreate: Login has been completed")
+                    }
+                )
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Helo $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    TOATheme {
-        Greeting("Android")
     }
 }
