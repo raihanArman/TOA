@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.randev.toa.R
 import com.randev.toa.ui.theme.TOATheme
 import com.randev.toa.ui.theme.TextFieldShape
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
@@ -67,6 +68,7 @@ fun TextFieldCustom(
                 .onFocusChanged {
                     if (it.isFocused) {
                         coroutineScope.launch {
+                            delay(1000)
                             relocationRequestor.bringIntoView()
                         }
                     }
