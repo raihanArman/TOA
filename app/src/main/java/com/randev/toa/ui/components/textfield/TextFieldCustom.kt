@@ -68,6 +68,7 @@ fun TextFieldCustom(
                 .onFocusChanged {
                     if (it.isFocused) {
                         coroutineScope.launch {
+                            @Suppress("MagicNumber")
                             delay(1000)
                             relocationRequestor.bringIntoView()
                         }
