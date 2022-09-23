@@ -33,6 +33,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.insets.navigationBarsPadding
 import com.randev.toa.R
 import com.randev.toa.feature.getString
 import com.randev.toa.ui.components.PrimaryButton
@@ -140,7 +141,10 @@ private fun LogoInputColumn(
         VerticalSpacer(12.dp)
         SignUpButton(
             onClick = onSignUpClicked,
-            enabled = viewState.buttonEnabled
+            enabled = viewState.buttonEnabled,
+            modifier = Modifier
+                .padding(contentPadding.calculateBottomPadding())
+                .navigationBarsPadding()
         )
     }
 }
@@ -149,12 +153,14 @@ private fun LogoInputColumn(
 private fun SignUpButton(
     onClick: () -> Unit,
     enabled: Boolean,
+    modifier: Modifier = Modifier
 ) {
     SecondaryButton(
         text = stringResource(R.string.signup),
         onClick = onClick,
         contentColor = MaterialTheme.colors.primary,
-        enabled = enabled
+        enabled = enabled,
+        modifier = modifier
     )
 }
 
