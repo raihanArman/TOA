@@ -17,7 +17,6 @@ fun TaskList(
 //    onRescheduleClicked: () -> Unit,
 //    onDoneClicked: () -> Unit
 ) {
-    // TODO: task list screen
     Text("todo")
 }
 
