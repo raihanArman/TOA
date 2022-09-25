@@ -3,7 +3,6 @@ package com.randev.toa.feature.tasklist.ui
 import android.content.res.Configuration
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.randev.toa.feature.tasklist.domain.model.Task
 import com.randev.toa.ui.theme.TOATheme
 
 /**
@@ -13,9 +12,9 @@ import com.randev.toa.ui.theme.TOATheme
 
 @Composable
 fun TaskList(
-    tasks: List<Task>,
-    onRescheduleClicked: () -> Unit,
-    onDoneClicked: () -> Unit
+//    tasks: List<Task>,
+//    onRescheduleClicked: () -> Unit,
+//    onDoneClicked: () -> Unit
 ) {
 }
 
@@ -31,9 +30,9 @@ fun TaskList(
 fun TextButtonCustomPreview() {
     TOATheme {
         TaskList(
-            tasks = emptyList(),
-            onDoneClicked = {},
-            onRescheduleClicked = {}
+//            tasks = emptyList(),
+//            onDoneClicked = {},
+//            onRescheduleClicked = {}
         )
     }
 }

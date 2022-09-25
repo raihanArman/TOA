@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.input.VisualTransformation
@@ -26,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import com.randev.toa.R
 import com.randev.toa.ui.theme.TOATheme
 import com.randev.toa.ui.theme.TextFieldShape
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * @author Raihan Arman
@@ -44,7 +45,6 @@ fun TextFieldCustom(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     enabled: Boolean = true,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    onFocusChanged: (FocusState) -> Unit = {}
 ) {
     val relocationRequestor = remember {
         BringIntoViewRequester()
@@ -66,14 +66,13 @@ fun TextFieldCustom(
                 .fillMaxWidth()
                 .bringIntoViewRequester(relocationRequestor)
                 .onFocusChanged {
-//                    if (it.isFocused) {
-//                        coroutineScope.launch {
-//                            @Suppress("MagicNumber")
-//                            delay(1000)
-//                            relocationRequestor.bringIntoView()
-//                        }
-//                    }
-                    onFocusChanged(it)
+                    if (it.isFocused) {
+                        coroutineScope.launch {
+                            @Suppress("MagicNumber")
+                            delay(1000)
+                            relocationRequestor.bringIntoView()
+                        }
+                    }
                 },
             shape = TextFieldShape,
             isError = (errorMessage != null),
