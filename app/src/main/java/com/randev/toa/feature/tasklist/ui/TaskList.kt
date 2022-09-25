@@ -1,6 +1,7 @@
 package com.randev.toa.feature.tasklist.ui
 
 import android.content.res.Configuration
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.randev.toa.ui.theme.TOATheme
@@ -17,6 +18,7 @@ fun TaskList(
 //    onDoneClicked: () -> Unit
 ) {
     // TODO: task list screen
+    Text("todo")
 }
 
 @Preview(
