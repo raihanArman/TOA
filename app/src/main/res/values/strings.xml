@@ -8,4 +8,6 @@
     <string name="err_login_failure">There was a problem logging </string>
     <string name="err_empty_email">Please enter a email</string>
     <string name="err_empty_password">Please enter a password</string>
+    <string name="reschedule">Reschedule</string>
+    <string name="done">DONE</string>
 </resources>
