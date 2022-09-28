@@ -1,6 +1,7 @@
 package com.randev.toa.ui.components.button
 
 import android.content.res.Configuration
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -21,7 +22,8 @@ fun TextButtonCustom(
 ) {
     TextButton(onClick = onCLick) {
         Text(
-            text = text.toUpperCase(Locale.current)
+            text = text.toUpperCase(Locale.current),
+            style = MaterialTheme.typography.caption
         )
     }
 }
