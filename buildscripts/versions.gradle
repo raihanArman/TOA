@@ -1,0 +1,6 @@
+ext {
+    versions = [
+            ktxCore: "1.7.0",
+            ktxLifecycle: "2.3.1"
+    ]
+}
