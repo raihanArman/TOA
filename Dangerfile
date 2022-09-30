@@ -24,7 +24,7 @@ end
 dependencyReportsFile = "app/build/dependencyUpdates/report.txt"
 dependencyUpdatesHeader = "The following dependencieshave later milestone versions"
 
-hasDependencyUpdatesHeader = File.readLines(dependencyReportsFile).grap(/#{dependencyUpdatesHeader}/).any?
+hasDependencyUpdatesHeader = File.readlines(dependencyReportsFile).grap(/#{dependencyUpdatesHeader}/).any?
 
 if hasDependencyUpdatesHeader
     file = File.open(dependencyUpdatesHeader, "rb").read
